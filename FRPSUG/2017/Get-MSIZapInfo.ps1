@@ -91,17 +91,10 @@ Begin {
     )
     Begin {}
     Process {
-        $raw = [regex]::replace($String, '[^a-zA-Z0-9]','')
-        (
-            [guid](
-                -join (
-                    7,6,5,4,3,2,1,0,11,10,9,8,15,14,13,12,17,16,19,18,21,20,23,22,25,24,27,26,29,28,31,30,32 |
-                    ForEach-Object {
-                        $raw[$_]
-                    }
-                )
-            )
-        ).Tostring('D').ToUpper()
+        $prodid = ''
+        [guid]::Parse($String)$guid.ToByteArray() |
+            ForEach-Object { $prodid += ($_ -band 15).ToString('X') + ($_ -shr 4).ToString('X') }
+        return $prodid
     }
     End{}
     }
