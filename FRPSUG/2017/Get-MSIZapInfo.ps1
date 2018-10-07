@@ -92,8 +92,8 @@ Begin {
     Begin {}
     Process {
         $prodid = ''
-        [guid]::Parse($String) |
-            $guid.ToByteArray() | % { $prodid += ($_ -band 15).ToString('X') + ($_ -shr 4).ToString('X') }
+        [guid]::Parse($String).ToByteArray() |
+            ForEach-Object { $prodid += ($_ -band 15).ToString('X') + ($_ -shr 4).ToString('X') }
         $prodid
     }
     End{}
